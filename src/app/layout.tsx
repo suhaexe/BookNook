@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Suspense } from "react"; 
+import { Suspense } from "react";
 import { Fraunces, Inter } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
@@ -16,16 +18,27 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <body className={`${fraunces.variable} ${inter.variable} font-sans antialiased flex min-h-screen flex-col bg-[#EAE9E5] text-[#202426]`}>
-        
-        <Suspense fallback={<div className="h-[73px] border-b border-[#B4B0A8] bg-[#EAE9E5]"></div>}>
+      <body
+        className={`${fraunces.variable} ${inter.variable} font-sans antialiased flex min-h-screen flex-col bg-[#EAE9E5] text-[#202426]`}
+      >
+        <Suspense
+          fallback={
+            <div className="h-[73px] border-b border-[#B4B0A8] bg-[#EAE9E5]"></div>
+          }
+        >
           <Navbar />
         </Suspense>
-        
-        <main className="flex-1">
-          {children}
-        </main>
+
+        <main className="flex-1 w-full overflow-x-hidden">{children}</main>
         <Footer />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={true}
+          closeButton={false}
+          toastClassName="custom-toast"
+          className="text-sm font-sans"
+        />
       </body>
     </html>
   );

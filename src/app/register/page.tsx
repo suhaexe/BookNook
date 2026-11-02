@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { PageTitle } from "@/components/ui/page-title";
 import { authClient } from "@/lib/auth-client";
 
 const RegisterPage = () => {
@@ -50,6 +51,7 @@ const RegisterPage = () => {
 
   return (
     <div className="mx-auto flex max-w-md flex-col justify-center px-6 py-32">
+      <PageTitle title="Register" />
       <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#8D7771] mb-4">
         Join Us
       </p>

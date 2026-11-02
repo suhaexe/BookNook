@@ -9,3 +9,30 @@ body {
   background-color: #EAE9E5;
   color: #202426;
 }
+
+.custom-toast {
+  background-color: #EAE9E5 !important;
+  color: #1a1512 !important;
+  border: 1px solid #B4B0A8 !important;
+  border-radius: 2px !important; 
+  box-shadow: 4px 4px 0px rgba(26, 21, 18, 0.1) !important; 
+  font-family: var(--font-sans) !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.15em !important;
+  padding: 16px !important;
+  font-weight: 600 !important;
+}
+
+.Toastify__toast-icon svg {
+  fill: #8D7771 !important; 
+}
+
+.custom-toast.Toastify__toast--error {
+  border-color: #8D7771 !important; 
+}
+
+.Toastify__close-button {
+  color: #1a1512 !important;
+  opacity: 0.5 !important;
+}

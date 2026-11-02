@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { PageTitle } from "@/components/ui/page-title";
 import { Cormorant_Garamond } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 
@@ -30,13 +31,14 @@ const ProfilePage = () => {
   }
 
   if (!session) {
-    return null; 
+    return null;
   }
 
   const user = session.user;
 
   return (
     <section className="min-h-screen bg-[#EAE9E5] px-6 py-24 md:px-12 flex flex-col items-center justify-center">
+      <PageTitle title="Profile" />
       <div className="w-full max-w-md border border-[#B4B0A8] bg-[#F5F3EF] p-10 flex flex-col items-center text-center shadow-lg">
         <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#8D7771] mb-8">
           Your Account

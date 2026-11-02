@@ -3,6 +3,8 @@
 import { useEffect, useState, Suspense } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { PageTitle } from "@/components/ui/page-title";
+import { toast } from "react-toastify";
 import { Cormorant_Garamond } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
@@ -127,16 +129,18 @@ const BookDetailsContent = () => {
       return;
     }
 
-       if (session && !isDummy) {
+    if (session && !isDummy) {
       const fetchBook = async () => {
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books/${id}`);
-          
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/books/${id}`,
+          );
+
           if (!res.ok) {
-            setBook(null); 
+            setBook(null);
             return;
           }
-          
+
           const data = await res.json();
           setBook(data);
         } catch (err) {
@@ -177,6 +181,7 @@ const BookDetailsContent = () => {
 
       setBorrowSuccess(true);
       setBook({ ...book, totalCopies: book.totalCopies - 1 });
+      toast.success("Book borrowed successfully!"); // <--- TEST SUCCESS TOAST
 
       setTimeout(() => {
         setIsModalOpen(false);
@@ -185,12 +190,11 @@ const BookDetailsContent = () => {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to borrow book";
-      setBorrowError(message);
+      toast.error(message); // <--- TEST ERROR TOAST
     } finally {
       setIsBorrowing(false);
     }
   };
-
   if (isPending || (loading && !isDummy)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#EAE9E5]">
@@ -221,6 +225,7 @@ const BookDetailsContent = () => {
 
   return (
     <section className="min-h-screen bg-[#EAE9E5] px-6 py-20 md:px-12 lg:py-32">
+      <PageTitle title={book.title} />
       <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-20 items-center">
         <div className="md:col-span-5 flex justify-center md:justify-end">
           <div className="relative w-full max-w-[300px] md:max-w-[400px] aspect-[2/3] overflow-hidden rounded-sm bg-[#1a1512] shadow-2xl">

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { display } from "@/lib/fonts";
 import BooksStack from "./BooksStack";
 
@@ -19,14 +18,16 @@ const SurpriseSection = ({
   return (
     <section className="bg-[#EAE9E5] px-4 py-16 sm:px-8 md:py-24">
       <div className="mx-auto max-w-6xl">
-        {/* Header */}
+        {/* header */}
         <div className="mb-14 flex flex-col items-center text-center md:mb-20">
-          <div className="mb-5 flex items-center gap-3">
-            <span className="h-px w-10 bg-[#8D7771]" />
+          <div className="mb-5 flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-[#8D7771]" />
+            <span className="text-[#8D7771] text-[10px]">✦</span>
             <p className="text-[11px] uppercase tracking-[0.3em] text-[#59636A]">
               Chapter Four
             </p>
-            <span className="h-px w-10 bg-[#8D7771]" />
+            <span className="text-[#8D7771] text-[10px]">✦</span>
+            <span className="h-px w-8 bg-[#8D7771]" />
           </div>
 
           <h2

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { PageTitle } from "@/components/ui/page-title";
+import { toast } from "react-toastify";
 import { Cormorant_Garamond } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
@@ -70,8 +72,9 @@ const MyBooksPage = () => {
       await apiFetch(`/books/${deleteId}`, { method: "DELETE" });
       setBooks((prev) => prev.filter((b) => b._id !== deleteId));
       setDeleteId(null);
+      toast.success("Book deleted successfully!");
     } catch (err) {
-      setError("Failed to delete book.");
+      toast.error("Failed to delete book.");
     } finally {
       setIsDeleting(false);
     }
@@ -89,6 +92,7 @@ const MyBooksPage = () => {
 
   return (
     <section className="min-h-screen bg-[#EAE9E5] px-6 py-24 md:px-12">
+      <PageTitle title="My Books" />
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 flex flex-col items-center text-center">
           <div className="mb-5 flex items-center gap-3">
@@ -126,54 +130,57 @@ const MyBooksPage = () => {
             </Link>
           </div>
         ) : (
-          <div className="overflow-x-auto border border-[#B4B0A8] bg-[#F5F3EF]">
-            <table className="w-full text-left text-sm text-[#1a1512]">
+          <div className="border border-[#B4B0A8] bg-[#F5F3EF] w-full">
+            <table className="w-full table-fixed text-left text-sm text-[#1a1512]">
               <thead className="border-b border-[#B4B0A8] text-[10px] uppercase tracking-[0.2em] text-[#59636A]">
                 <tr>
-                  <th className="px-6 py-4 font-medium">Book</th>
-                  <th className="px-6 py-4 font-medium">Copies</th>
-                  <th className="px-6 py-4 font-medium text-right">Actions</th>
+                  <th className="px-4 md:px-6 py-4 font-medium">Book</th>
+                  <th className="hidden md:table-cell px-6 py-4 font-medium text-center">
+                    Copies
+                  </th>
+                  <th className="px-4 md:px-6 py-4 font-medium text-right">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#B4B0A8]/50">
                 {books.map((book) => (
-                  <tr
-                    key={book._id}
-                    className="transition-colors hover:bg-[#EAE9E5]"
-                  >
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-4">
+                  <tr key={book._id} className="cursor-default">
+                    <td className="px-4 md:px-6 py-4">
+                      <div className="flex items-center gap-3 md:gap-4">
                         <img
                           src={book.image}
                           alt={book.title}
-                          className="h-16 w-12 object-cover rounded-sm shadow-md"
+                          className="h-16 w-12 object-cover rounded-sm shadow-md flex-shrink-0"
                         />
-                        <div>
+                        <div className="min-w-0">
                           <span
-                            className={`${display.className} block text-lg font-medium`}
+                            className={`${display.className} block text-base md:text-lg font-medium leading-tight truncate md:whitespace-normal`}
                           >
                             {book.title}
                           </span>
-                          <span className="text-xs text-[#59636A]">
+                          <span className="text-xs text-[#59636A] block truncate md:whitespace-normal">
                             {book.author}
                           </span>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-[#59636A]">
+
+                    <td className="hidden md:table-cell px-6 py-4 text-[#59636A] text-center">
                       {book.totalCopies}
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-3">
+
+                    <td className="px-4 md:px-6 py-4 text-right">
+                      <div className="flex flex-col md:flex-row items-end md:items-center justify-end gap-2 md:gap-3">
                         <Link
                           href={`/my-books/edit/${book._id}`}
-                          className="border border-[#1a1512] px-4 py-2 text-[10px] font-bold uppercase tracking-[0.15em] text-[#1a1512] transition-colors hover:bg-[#1a1512] hover:text-[#EAE9E5]"
+                          className="border border-[#B4B0A8] w-full md:w-auto text-center px-3 md:px-4 py-1.5 md:py-2 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-[#59636A] transition-colors hover:border-[#202426] hover:bg-[#202426] hover:text-[#EAE9E5]"
                         >
                           Edit
                         </Link>
                         <button
                           onClick={() => setDeleteId(book._id)}
-                          className="border border-red-700 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.15em] text-red-700 transition-colors hover:bg-red-700 hover:text-white"
+                          className="border border-[#8D7771] w-full md:w-auto px-3 md:px-4 py-1.5 md:py-2 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-[#8D7771] transition-colors hover:bg-[#8D7771] hover:text-[#EAE9E5]"
                         >
                           Delete
                         </button>
@@ -208,7 +215,7 @@ const MyBooksPage = () => {
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="flex-1 bg-red-700 py-3 text-[11px] font-bold uppercase tracking-widest text-white hover:bg-red-800 transition-colors disabled:opacity-50"
+                className="flex-1 bg-[#542C35] py-3 text-[11px] font-bold uppercase tracking-widest text-[#EAE9E5] hover:bg-[#3E1F26] transition-colors disabled:opacity-50"
               >
                 {isDeleting ? "Deleting..." : "Confirm Delete"}
               </button>

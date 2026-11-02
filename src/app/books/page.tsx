@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { PageTitle } from "@/components/ui/page-title";
 import { Cormorant_Garamond } from "next/font/google";
 
 const display = Cormorant_Garamond({
@@ -50,6 +51,7 @@ const AllBooksPage = () => {
 
   return (
     <section className="min-h-screen bg-[#EAE9E5] px-6 py-24 md:px-12">
+       <PageTitle title="All Books" />
       <div className="mx-auto max-w-7xl">
         
         <div className="mb-20 flex flex-col items-center text-center">

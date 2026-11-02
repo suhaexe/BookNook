@@ -26,7 +26,6 @@ const clues: Record<string, string[]> = {
   "6": ["Four nights", "St. Petersburg", "A dreamer's love"],
 };
 
-// 1. Here is your beautiful hardcoded data back
 const dummyBooks: Book[] = [
   {
     id: "1",
@@ -85,7 +84,7 @@ const dummyBooks: Book[] = [
 ];
 
 const HomePage = () => {
-  const [books, setBooks] = useState<Book[]>(dummyBooks); // Start with dummy data
+  const [books, setBooks] = useState<Book[]>(dummyBooks); 
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -103,7 +102,6 @@ const HomePage = () => {
           img: b.image || "",
         }));
         
-        // 2. Combine the real database books with your dummy books so the page stays full!
         setBooks([...formattedDbBooks, ...dummyBooks]);
       } catch (err) {
         console.error("Failed to fetch books");
@@ -115,7 +113,6 @@ const HomePage = () => {
   return (
     <div className="flex flex-col w-full overflow-hidden">
       <Hero />
-      {/* Slice to 6 so it only shows exactly 6 books */}
       <Shelf books={books.slice(0, 6)} />
       <Quote />
       <Surprise books={books.slice(0, 6)} clues={clues} />

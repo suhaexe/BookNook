@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter, usePathname } from "next/navigation"; // Imported usePathname
+import { useRouter, usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
-  const pathname = usePathname(); // Get the current URL
+  const pathname = usePathname(); 
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
