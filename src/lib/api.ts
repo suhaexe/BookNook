@@ -1,6 +1,6 @@
 import { authClient } from "./auth-client";
 
-export async function apiFetch(path: string, options: RequestInit = {}) {
+export const apiFetch = async <T = unknown>(path: string, options: RequestInit = {}): Promise<T> => {
   const { data, error } = await authClient.token();
   
   if (error || !data) {
@@ -21,5 +21,5 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
     throw new Error(errData.message || "Something went wrong");
   }
 
-  return res.json();
-}
+  return res.json() as Promise<T>;
+};
