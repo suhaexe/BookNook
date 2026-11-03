@@ -16,7 +16,6 @@ const Shelf = ({
   return (
     <section className="relative bg-[#EAE9E5] px-4 py-16 md:py-24">
       <div className="relative mx-auto max-w-7xl">
-        {/* header */}
         <div className="mb-12 flex flex-col items-center text-center md:mb-16">
           <div className="mb-5 flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-[#8D7771]" />
@@ -56,7 +55,6 @@ const Shelf = ({
                 key={book.id}
                 className={`flex ${isEven ? "flex-row" : "flex-row-reverse"} items-center w-full max-w-6xl mx-auto gap-2 md:gap-8 py-12 md:py-20 pl-5 md:pl-12 pr-5 md:pr-12 `}
               >
-                {/* image container */}
                 <div
                   className={`w-1/2 flex ${isEven ? "justify-end" : "justify-start"}`}
                 >
@@ -72,7 +70,6 @@ const Shelf = ({
                   </Link>
                 </div>
 
-                {/* text container */}
                 <div
                   className={`w-1/2 flex flex-col justify-center ${isEven ? "text-left items-start" : "text-right items-end"}`}
                 >

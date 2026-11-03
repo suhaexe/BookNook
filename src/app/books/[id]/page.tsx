@@ -191,7 +191,7 @@ const BookDetailsContent = () => {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to borrow book";
-      toast.error(message); // <--- TEST ERROR TOAST
+      toast.error(message); 
     } finally {
       setIsBorrowing(false);
     }

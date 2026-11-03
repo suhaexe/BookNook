@@ -74,8 +74,6 @@ export const Navbar = () => {
         <div className="flex items-center gap-6">
           {user ? (
             <div className="hidden lg:flex">
-              
-              {/* NO asChild USED ANYWHERE HERE */}
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-3 rounded-full border border-transparent px-3 py-1.5 transition-all hover:bg-[#D5CCBD]/40 hover:border-[#B4B0A8] focus:outline-none cursor-pointer">
                   {user.image ? (

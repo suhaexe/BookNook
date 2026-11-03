@@ -4,7 +4,6 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { display } from "@/lib/fonts";
 
-// 1. Take "a" out of the highlighted array
 const before = "A room without books is like".split(" ");
 const highlighted = "body without a soul".split(" ");
 
@@ -102,15 +101,12 @@ const Quote = () => {
               </Fragment>
             ))}
 
-            {/* Force line break on mobile only */}
             <br className="block sm:hidden" />
 
-            {/* Render "a" outside the highlight span */}
              <span className="inline-block mr-1 md:mr-3" style={wordStyle(before.length)}>
               a
             </span>
 
-            {/* Highlight starts here (and remains on mobile & desktop) */}
             <span className="box-decoration-clone px-1 whitespace-nowrap" style={highlightStyle}>
               {highlighted.map((word, i) => {
                 const isLast = i === highlighted.length - 1;

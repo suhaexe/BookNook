@@ -18,7 +18,6 @@ const SurpriseSection = ({
   return (
     <section className="bg-[#EAE9E5] px-4 py-16 sm:px-8 md:py-24">
       <div className="mx-auto max-w-6xl">
-        {/* header */}
         <div className="mb-14 flex flex-col items-center text-center md:mb-20">
           <div className="mb-5 flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-[#8D7771]" />

@@ -4,22 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { display } from "@/lib/fonts";
 
-const LIGHT_RADIUS = 200; // size of the circle of light, in px
+const LIGHT_RADIUS = 200; 
 
 type Point = { x: number; y: number };
 
 const About = () => {
   const lanternRef = useRef<HTMLDivElement>(null);
-  const interacting = useRef(false); // true while a mouse or finger is on the text
-  const reducedMotion = useRef(false); // true if the visitor turned animations off
+  const interacting = useRef(false); 
+  const reducedMotion = useRef(false); 
   const [light, setLight] = useState<Point | null>(null);
 
-  // The light drifts back and forth on its own until someone touches the text
   useEffect(() => {
     const el = lanternRef.current;
     if (!el) return;
 
-    // Respect people who turned animations off: no drifting for them
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       reducedMotion.current = true;
       return;
@@ -41,7 +39,6 @@ const About = () => {
     return () => cancelAnimationFrame(frame);
   }, []);
 
-  // A mouse or finger takes over the light
   function follow(clientX: number, clientY: number) {
     const box = lanternRef.current?.getBoundingClientRect();
     if (!box) return;
@@ -49,14 +46,11 @@ const About = () => {
     setLight({ x: clientX - box.left, y: clientY - box.top });
   }
 
-  // The mouse or finger leaves: the light goes back to drifting
   function release() {
     interacting.current = false;
     if (reducedMotion.current) setLight(null); // no drifting, so just switch it off
   }
 
-  // While the light exists, the text is "cut out" of a gradient:
-  // dark ink inside the circle, softer grey everywhere else.
   const lanternStyle = light
     ? {
         backgroundImage: `radial-gradient(circle ${LIGHT_RADIUS}px at ${light.x}px ${light.y}px, #1a1512 0%, rgba(26,21,18,0.9) 35%, rgba(89,99,106,0.45) 100%)`,
@@ -65,10 +59,8 @@ const About = () => {
 
   return (
     <section className="bg-[#EAE9E5] px-6 py-12 sm:px-8 md:py-24">
-      {/* Page frame: one border on phones, a double rule from tablet up */}
       <div className="mx-auto max-w-4xl border border-[#B4B0A8] md:p-3">
         <div className="px-5 py-10 text-center md:border md:border-[#B4B0A8]/60 md:px-16 md:py-20">
-          {/* Eyebrow */}
           <div className="mb-8 flex items-center justify-center gap-3 md:mb-10">
             <span className="h-px w-8 bg-[#8D7771]" />
             <span className="text-[10px] text-[#8D7771]">✦</span>
@@ -79,7 +71,6 @@ const About = () => {
             <span className="h-px w-8 bg-[#8D7771]" />
           </div>
 
-          {/* The statement, with the lantern */}
           <div
             ref={lanternRef}
             onMouseMove={(e) => follow(e.clientX, e.clientY)}
@@ -105,13 +96,11 @@ const About = () => {
             </p>
           </div>
 
-          {/* Hint, desktop only */}
           <p className="mt-5 hidden items-center justify-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#8D7771] md:flex">
             <span>✦</span>
             <span>Hover over the words</span>
           </p>
 
-          {/* Main action: same pill button as the rest of the page */}
           <Link
             href="/add-book"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#1a1512] px-7 py-3.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#EAE9E5] transition hover:bg-[#8D7771] md:mt-10"
@@ -119,7 +108,6 @@ const About = () => {
             Start your shelf <span aria-hidden>{"\u2197\uFE0E"}</span>
           </Link>
 
-          {/* Ornament divider: three stars with equal spacing, so it's centered */}
           <div className="my-10 flex items-center justify-center gap-3 text-[#8D7771] md:my-12">
             <span className="h-px w-12 bg-[#B4B0A8]" />
             <span className="text-xs">✦</span>
@@ -128,7 +116,6 @@ const About = () => {
             <span className="h-px w-12 bg-[#B4B0A8]" />
           </div>
 
-          {/* Colophon */}
           <p
             className={`${display.className} mx-auto max-w-xs text-sm italic leading-relaxed text-[#59636A]`}
           >
@@ -145,7 +132,6 @@ const About = () => {
             Fin.
           </p>
 
-          {/* Page number */}
           <p className={`${display.className} mt-4 text-base text-[#8D7771]`}>
             — 218 —
           </p>

@@ -53,7 +53,6 @@ const Hero = () => {
   return (
     <section className="bg-[#EAE9E5] px-4 pb-8 pt-2 sm:px-8 lg:px-12 lg:pt-0 lg:mt-[-40px] lg:pb-8 overflow-hidden relative">
       <div className="mx-auto max-w-[1440px]">
-        {/* desktop hero */}
         <div className="hidden lg:block">
           <div className="relative aspect-[1672/941] min-h-[600px] w-full">
             <div
@@ -103,7 +102,6 @@ const Hero = () => {
               </span>
             </div>
 
-            {/* desktop swiper */}
             <div className="relative z-10 h-full w-full">
               <div className="absolute top-1/2 right-8 -translate-y-1/2 z-20 flex flex-col gap-4">
                 <button className="hero-prev flex h-12 w-12 items-center justify-center rounded-full border border-[#EAE9E5]/40 bg-[#1a1512]/30 text-[#EAE9E5] backdrop-blur-md transition-all hover:bg-[#8D7771] hover:text-[#1a1512] hover:border-[#8D7771]">
@@ -211,7 +209,6 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Mobile + Tablet Hero */}
         <div className="lg:hidden">
           <div className="mx-auto max-w-md px-2 pt-4 md:grid md:max-w-4xl md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-x-10">
             <div className="mb-6 flex items-center gap-3 md:col-start-1 md:row-start-1">
@@ -221,7 +218,6 @@ const Hero = () => {
               </p>
             </div>
 
-            {/* Image container */}
             <div className="relative ml-auto w-[84%] md:col-start-2 md:row-span-2 md:row-start-1 md:ml-0 md:w-full">
               <div className="relative aspect-[4/5] overflow-hidden rounded-t-full bg-[#1a1512] md:bg-[#EAE9E5]">
                 <Image
@@ -246,9 +242,7 @@ const Hero = () => {
               </span>
             </div>
 
-            {/* Text container */}
             <div className="relative z-10 -mt-20 md:col-start-1 md:row-start-2 md:mt-0 md:min-w-0 md:self-center md:pl-0">
-              {/* Mobile Swiper */}
               {mounted && (
                 <Swiper
                   modules={[Autoplay, Pagination, EffectFade, Navigation]}
