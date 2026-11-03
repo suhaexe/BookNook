@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { Menu, X, BookOpen } from "lucide-react"; 
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter, usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,11 +42,12 @@ export const Navbar = () => {
   return (
     <header className="border-b border-[#B4B0A8] bg-[#EAE9E5]/80 backdrop-blur-sm sticky top-0 z-50 py-5 px-8">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
-        <Link
+         <Link
           href="/"
-          className="text-2xl font-display font-medium text-[#202426] tracking-tight"
+          className="flex items-center gap-2 text-2xl font-display font-medium text-[#202426] tracking-tight group"
         >
-          BookNook
+          <BookOpen className="h-6 w-6 text-[#8D7771] transition-transform group-hover:-rotate-6" strokeWidth={1.5} />
+          <span>BookNook</span>
         </Link>
 
         <nav className="hidden gap-10 lg:flex">
