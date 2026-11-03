@@ -3,7 +3,7 @@
 BookNook is a small online library where users can browse books, add new books to the shelf, and borrow them for a few days. Built with a custom "Ink & Porcelain" editorial design.
 
 ## Live Website
-**[Insert your live Vercel URL here once deployed]**
+**[(https://booknook-letsgomate.vercel.app)]**
 
 ## Features
 - **Swiper.js Hero Slider**: A dynamic, animated hero section featuring 3 slides with a "Browse Books" call-to-action.
