@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { Cormorant_Garamond } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
+import { Spinner } from "@/components/ui/Spinner";
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -197,11 +198,7 @@ const BookDetailsContent = () => {
   };
   if (isPending || (loading && !isDummy)) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#EAE9E5]">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-[#59636A] animate-pulse">
-          Opening the book...
-        </p>
-      </div>
+     <Spinner />
     );
   }
 

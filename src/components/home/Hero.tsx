@@ -18,7 +18,7 @@ const slides = [
     italic: "worth",
     end: "sharing.",
     text: "A little corner of the internet for stories that stay with you.",
-    btnText: "Browse Library",
+    btnText: "Browse Books",
     link: "/books",
   },
   {
@@ -26,7 +26,7 @@ const slides = [
     italic: "waiting",
     end: "to be found.",
     text: "Explore a curated collection of history, science, and art from fellow readers.",
-    btnText: "Explore Collection",
+    btnText: "Browse Books",
     link: "/books",
   },
   {
@@ -34,8 +34,8 @@ const slides = [
     italic: "live",
     end: "longer.",
     text: "Add your own books to the shelf and share them with the community.",
-    btnText: "Add a Book",
-    link: "/add-book",
+    btnText: "Browse Books",
+    link: "/books",
   },
 ];
 
@@ -211,42 +211,44 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* mobile + tablet hero */}
+        {/* Mobile + Tablet Hero */}
         <div className="lg:hidden">
-          <div className="mx-auto max-w-md px-2 pt-4 md:max-w-2xl">
-            <div className="mb-6 flex items-center gap-3">
+          <div className="mx-auto max-w-md px-2 pt-4 md:grid md:max-w-4xl md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-x-10">
+            <div className="mb-6 flex items-center gap-3 md:col-start-1 md:row-start-1">
               <span className="h-px w-10 bg-[#8D7771]" />
               <p className="text-[11px] uppercase tracking-[0.3em] text-[#59636A]">
                 welcome to booknook
               </p>
             </div>
 
-            <div className="relative ml-auto w-[84%] md:w-[80%]">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-t-full bg-[#1a1512]">
+            {/* Image container */}
+            <div className="relative ml-auto w-[84%] md:col-start-2 md:row-span-2 md:row-start-1 md:ml-0 md:w-full">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-t-full bg-[#1a1512] md:bg-[#EAE9E5]">
                 <Image
                   src="/library.png"
                   alt="A cozy library"
                   fill
                   priority
-                  sizes="(min-width: 768px) 60vw, 84vw"
+                  sizes="(min-width: 768px) 50vw, 84vw"
                   className="object-cover object-right"
                 />
-                <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(234,233,229,0)_30%,#EAE9E5_92%)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(234,233,229,0)_30%,#EAE9E5_92%)] md:bg-[linear-gradient(to_bottom,rgba(234,233,229,0)_58%,#EAE9E5_98%)]" />
               </div>
 
-              <p className="absolute -left-9 top-20 rotate-180 text-[10px] uppercase tracking-[0.3em] text-[#8D7771] [writing-mode:vertical-rl]">
+              <p className="absolute -left-9 top-20 rotate-180 text-[10px] uppercase tracking-[0.3em] text-[#8D7771] [writing-mode:vertical-rl] md:-left-8 md:bottom-12 md:ml-0 md:mt-51 md:whitespace-nowrap md:text-[11px] md:tracking-[0.2em] min-[900px]:text-[13px] min-[900px]:tracking-[0.3em]">
                 bound by ink. est. 2026
               </p>
 
               <span
-                className={`${display.className} absolute -bottom-4 right-2 select-none text-7xl leading-none text-[#8D7771]/30`}
+                className={`${display.className} absolute -bottom-4 right-2 select-none text-7xl leading-none text-[#8D7771]/30 md:bottom-3 md:right-4`}
               >
                 01
               </span>
             </div>
 
-            {/* mobile swiper */}
-            <div className="relative z-10 -mt-20 md:-mt-8 md:pl-12">
+            {/* Text container */}
+            <div className="relative z-10 -mt-20 md:col-start-1 md:row-start-2 md:mt-0 md:min-w-0 md:self-center md:pl-0">
+              {/* Mobile Swiper */}
               {mounted && (
                 <Swiper
                   modules={[Autoplay, Pagination, EffectFade, Navigation]}
@@ -266,7 +268,7 @@ const Hero = () => {
                   {slides.map((slide, index) => (
                     <SwiperSlide key={index}>
                       <h1
-                        className={`${display.className} text-[64px] font-medium leading-[0.9] text-[#1a1512] sm:text-7xl md:text-[88px]`}
+                        className={`${display.className} text-[64px] font-medium leading-[0.9] text-[#1a1512] sm:text-7xl md:text-[60px] min-[900px]:text-[72px]`}
                       >
                         {slide.title}
                         <br />
@@ -277,7 +279,7 @@ const Hero = () => {
                         {slide.end}
                       </h1>
 
-                      <p className="mt-6 max-w-xs text-[15px] leading-7 text-[#59636A]">
+                      <p className="mt-6 max-w-xs text-[15px] leading-7 text-[#59636A] md:max-w-sm md:text-base">
                         {slide.text}
                       </p>
 
@@ -295,7 +297,7 @@ const Hero = () => {
                 </Swiper>
               )}
 
-              <div className="absolute bottom-0 right-0 z-50 flex gap-2 pointer-events-auto">
+              <div className="absolute bottom-0 right-0 z-50 flex gap-2 pointer-events-auto md:static md:mt-3 md:pl-0">
                 <button
                   type="button"
                   className="mobile-prev flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-[#1a1512]/20 text-[#1a1512] hover:bg-[#1a1512]/10"
@@ -335,7 +337,7 @@ const Hero = () => {
               </div>
             </div>
 
-            <div className="mt-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[#8D7771] sm:text-[11px]">
+            <div className="mt-8 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[#8D7771] sm:text-[11px] md:col-span-2">
               <span>Discover</span>
               <span>•</span>
               <span>Read</span>

@@ -89,10 +89,10 @@ const HomePage = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books`);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books?limit=6`);
         const data = await res.json();
         
-        const formattedDbBooks = data.map((b: { _id: string, title: string, author: string, category: string, description: string, image: string }) => ({
+        const formattedBooks = data.map((b: { _id: string, title: string, author: string, category: string, description: string, image: string }) => ({
           _id: b._id,
           id: b._id, 
           title: b.title,
@@ -102,7 +102,7 @@ const HomePage = () => {
           img: b.image || "",
         }));
         
-        setBooks([...formattedDbBooks, ...dummyBooks]);
+        setBooks(formattedBooks);
       } catch (err) {
         console.error("Failed to fetch books");
       }
@@ -113,9 +113,9 @@ const HomePage = () => {
   return (
     <div className="flex flex-col w-full overflow-hidden">
       <Hero />
-      <Shelf books={books.slice(0, 6)} />
+      <Shelf books={books} />
       <Quote />
-      <Surprise books={books.slice(0, 6)} clues={clues} />
+      <Surprise books={books} clues={clues} />
       <About />
     </div>
   );

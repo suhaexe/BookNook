@@ -1,83 +1,154 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { display } from "@/lib/fonts";
 
+const LIGHT_RADIUS = 200; // size of the circle of light, in px
+
+type Point = { x: number; y: number };
+
 const About = () => {
+  const lanternRef = useRef<HTMLDivElement>(null);
+  const interacting = useRef(false); // true while a mouse or finger is on the text
+  const reducedMotion = useRef(false); // true if the visitor turned animations off
+  const [light, setLight] = useState<Point | null>(null);
+
+  // The light drifts back and forth on its own until someone touches the text
+  useEffect(() => {
+    const el = lanternRef.current;
+    if (!el) return;
+
+    // Respect people who turned animations off: no drifting for them
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      reducedMotion.current = true;
+      return;
+    }
+
+    let frame = 0;
+
+    const tick = (time: number) => {
+      if (!interacting.current) {
+        setLight({
+          x: el.offsetWidth * (0.5 + 0.42 * Math.sin(time / 2200)),
+          y: el.offsetHeight * (0.5 + 0.18 * Math.sin(time / 1700)),
+        });
+      }
+      frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // A mouse or finger takes over the light
+  function follow(clientX: number, clientY: number) {
+    const box = lanternRef.current?.getBoundingClientRect();
+    if (!box) return;
+    interacting.current = true;
+    setLight({ x: clientX - box.left, y: clientY - box.top });
+  }
+
+  // The mouse or finger leaves: the light goes back to drifting
+  function release() {
+    interacting.current = false;
+    if (reducedMotion.current) setLight(null); // no drifting, so just switch it off
+  }
+
+  // While the light exists, the text is "cut out" of a gradient:
+  // dark ink inside the circle, softer grey everywhere else.
+  const lanternStyle = light
+    ? {
+        backgroundImage: `radial-gradient(circle ${LIGHT_RADIUS}px at ${light.x}px ${light.y}px, #1a1512 0%, rgba(26,21,18,0.9) 35%, rgba(89,99,106,0.45) 100%)`,
+      }
+    : undefined;
+
   return (
-    <section className="relative overflow-hidden bg-[#EAE9E5] px-8 py-32">
-      <span
-        className={`${display.className} pointer-events-none absolute -right-10 top-10 select-none text-[300px] leading-none text-[#8D7771]/10 md:text-[450px]`}
-      >
-        05
-      </span>
-
-      <div className="mx-auto max-w-7xl relative z-10 grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
-        <div className="md:col-span-5 relative">
-          <div className="absolute -inset-3 border border-[#8D7771]/40 translate-x-4 translate-y-4" />
-
-          <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#1a1512]">
-            <img
-              src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1000&auto=format&fit=crop"
-              alt="Inside the BookNook library"
-              className="h-full w-full object-cover grayscale-[0.3] sepia-[0.2] contrast-125"
-            />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(26,21,18,0.4))]" />
-          </div>
-        </div>
-
-        <div className="md:col-span-6 md:col-start-7">
-          <div className="mb-8 flex items-center gap-3">
+    <section className="bg-[#EAE9E5] px-6 py-12 sm:px-8 md:py-24">
+      {/* Page frame: one border on phones, a double rule from tablet up */}
+      <div className="mx-auto max-w-4xl border border-[#B4B0A8] md:p-3">
+        <div className="px-5 py-10 text-center md:border md:border-[#B4B0A8]/60 md:px-16 md:py-20">
+          {/* Eyebrow */}
+          <div className="mb-8 flex items-center justify-center gap-3 md:mb-10">
             <span className="h-px w-8 bg-[#8D7771]" />
-            <span className="text-[#8D7771] text-[10px]">✦</span>
+            <span className="text-[10px] text-[#8D7771]">✦</span>
             <p className="text-[11px] uppercase tracking-[0.3em] text-[#59636A]">
-              Chapter Five
+              Epilogue
+            </p>
+            <span className="text-[10px] text-[#8D7771]">✦</span>
+            <span className="h-px w-8 bg-[#8D7771]" />
+          </div>
+
+          {/* The statement, with the lantern */}
+          <div
+            ref={lanternRef}
+            onMouseMove={(e) => follow(e.clientX, e.clientY)}
+            onMouseLeave={release}
+            onTouchStart={(e) =>
+              follow(e.touches[0].clientX, e.touches[0].clientY)
+            }
+            onTouchMove={(e) =>
+              follow(e.touches[0].clientX, e.touches[0].clientY)
+            }
+            onTouchEnd={release}
+            onTouchCancel={release}
+            style={lanternStyle}
+            className={
+              light ? "bg-clip-text text-transparent" : "text-[#1a1512]"
+            }
+          >
+            <p
+              className={`${display.className} text-3xl font-medium italic leading-[1.2] md:text-5xl`}
+            >
+              A quiet corner for the modern reader, where books are passed from
+              hand to hand and no story sits idle on a shelf.
             </p>
           </div>
 
-          <h2
-            className={`${display.className} text-4xl md:text-6xl text-[#1a1512] leading-[1.05] mb-10`}
+          {/* Hint, desktop only */}
+          <p className="mt-5 hidden items-center justify-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#8D7771] md:flex">
+            <span>✦</span>
+            <span>Hover over the words</span>
+          </p>
+
+          {/* Main action: same pill button as the rest of the page */}
+          <Link
+            href="/add-book"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#1a1512] px-7 py-3.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#EAE9E5] transition hover:bg-[#8D7771] md:mt-10"
           >
-            A quiet corner for the{" "}
-            <span className="italic text-[#8D7771]">modern</span> reader.
-          </h2>
+            Start your shelf <span aria-hidden>{"\u2197\uFE0E"}</span>
+          </Link>
 
-          <p className="text-lg text-[#59636A] leading-relaxed mb-6">
-            <span
-              className={`${display.className} float-left text-7xl leading-[0.8] pr-4 pt-2 text-[#8D7771]`}
-            >
-              B
-            </span>
-            ookNook was born from a simple idea: books shouldn&apos;t sit idle
-            on shelves. They should be passed from hand to hand, sparking
-            conversations and building community.
-          </p>
-
-          <p className="text-lg text-[#59636A] leading-relaxed mb-10">
-            We&apos;ve created an editorial space that honors the tactile joy of
-            reading while making it easier than ever to share your library with
-            others.
-          </p>
-
-          <div className="flex gap-12 border-t border-[#B4B0A8] pt-8">
-            <div>
-              <p
-                className={`${display.className} text-4xl text-[#1a1512] mb-1`}
-              >
-                12k+
-              </p>
-              <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#8D7771]">
-                Books Shared
-              </p>
-            </div>
-            <div>
-              <p
-                className={`${display.className} text-4xl text-[#1a1512] mb-1`}
-              >
-                4.8k
-              </p>
-              <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#8D7771]">
-                Active Readers
-              </p>
-            </div>
+          {/* Ornament divider: three stars with equal spacing, so it's centered */}
+          <div className="my-10 flex items-center justify-center gap-3 text-[#8D7771] md:my-12">
+            <span className="h-px w-12 bg-[#B4B0A8]" />
+            <span className="text-xs">✦</span>
+            <span className="text-xs">✦</span>
+            <span className="text-xs">✦</span>
+            <span className="h-px w-12 bg-[#B4B0A8]" />
           </div>
+
+          {/* Colophon */}
+          <p
+            className={`${display.className} mx-auto max-w-xs text-sm italic leading-relaxed text-[#59636A]`}
+          >
+            <span className="block">Set in Cormorant Garamond.</span>
+            <span className="block">
+              Built with Next.js, Tailwind and MongoDB.
+            </span>
+            <span className="block">First edition, 2026 · Made by Suha.</span>
+          </p>
+
+          <p
+            className={`${display.className} mt-6 text-2xl italic text-[#8D7771]`}
+          >
+            Fin.
+          </p>
+
+          {/* Page number */}
+          <p className={`${display.className} mt-4 text-base text-[#8D7771]`}>
+            — 218 —
+          </p>
         </div>
       </div>
     </section>

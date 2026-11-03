@@ -5,10 +5,16 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname(); 
 
@@ -19,7 +25,6 @@ export const Navbar = () => {
     await authClient.signOut();
     router.push("/");
     setOpen(false);
-    setDropdownOpen(false);
   };
 
   const links = [
@@ -35,7 +40,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <header className="border-b border-[#B4B0A8] bg-[#EAE9E5]/95 backdrop-blur-sm sticky top-0 z-50 py-5 px-8">
+    <header className="border-b border-[#B4B0A8] bg-[#EAE9E5]/80 backdrop-blur-sm sticky top-0 z-50 py-5 px-8">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         <Link
           href="/"
@@ -44,7 +49,7 @@ export const Navbar = () => {
           BookNook
         </Link>
 
-        <nav className="hidden gap-10 md:flex">
+        <nav className="hidden gap-10 lg:flex">
           {links.map((l) => {
             const isActive =
               l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
@@ -55,8 +60,8 @@ export const Navbar = () => {
                 href={l.href}
                 className={`text-[11px] font-medium uppercase tracking-[0.15em] transition-all border-b pb-1 ${
                   isActive
-                    ? "text-[#1a1512] border-[#8D7771]" // Active state
-                    : "text-[#59636A] border-transparent hover:text-[#8D7771]" // Inactive state
+                    ? "text-[#1a1512] border-[#8D7771]" 
+                    : "text-[#59636A] border-transparent hover:text-[#8D7771]" 
                 }`}
               >
                 {l.label}
@@ -67,75 +72,71 @@ export const Navbar = () => {
 
         <div className="flex items-center gap-6">
           {user ? (
-            <div className="hidden md:flex relative">
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-3 rounded-full border border-transparent px-3 py-1.5 transition-all hover:bg-[#D5CCBD]/40 hover:border-[#B4B0A8] focus:outline-none cursor-pointer"
-              >
-                {user.image ? (
-                  <img
-                    src={user.image}
-                    alt="user"
-                    className="h-8 w-8 rounded-full object-cover border border-[#B4B0A8]"
-                  />
-                ) : (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8D7771] text-xs font-bold text-[#EAE9E5]">
-                    {user.name?.charAt(0).toUpperCase()}
-                  </div>
-                )}
-                <span className="text-xs font-medium uppercase tracking-wider text-[#202426]">
-                  {user.name}
-                </span>
-                <svg
-                  className={`h-3 w-3 text-[#59636A] transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-
-              {dropdownOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setDropdownOpen(false)}
-                  ></div>
-
-                  <div className="absolute right-0 top-full mt-2 z-50 w-48 border border-[#B4B0A8] bg-[#EAE9E5] p-2 shadow-xl">
-                    <div className="border-b border-[#B4B0A8]/50 px-3 py-2 mb-1">
-                      <p className="text-[10px] uppercase tracking-widest text-[#59636A]">
-                        Signed in as
-                      </p>
-                      <p className="text-sm font-medium text-[#202426] truncate">
-                        {user.name}
-                      </p>
+            <div className="hidden lg:flex">
+              
+              {/* NO asChild USED ANYWHERE HERE */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-3 rounded-full border border-transparent px-3 py-1.5 transition-all hover:bg-[#D5CCBD]/40 hover:border-[#B4B0A8] focus:outline-none cursor-pointer">
+                  {user.image ? (
+                    <img
+                      src={user.image}
+                      alt="user"
+                      className="h-8 w-8 rounded-full object-cover border border-[#B4B0A8]"
+                    />
+                  ) : (
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8D7771] text-xs font-bold text-[#EAE9E5]">
+                      {user.name?.charAt(0).toUpperCase()}
                     </div>
-                    <Link
-                      href="/profile"
-                      onClick={() => setDropdownOpen(false)}
-                      className="block px-3 py-2 text-[11px] font-medium uppercase tracking-[0.15em] text-[#59636A] hover:bg-[#D5CCBD]/40 hover:text-[#202426] transition-colors"
-                    >
-                      My Profile
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.15em] text-[#59636A] hover:bg-[#D5CCBD]/40 hover:text-[#202426] transition-colors"
-                    >
-                      Logout
-                    </button>
+                  )}
+                  <span className="text-xs font-medium uppercase tracking-wider text-[#202426]">
+                    {user.name}
+                  </span>
+                  <svg
+                    className="h-3 w-3 text-[#59636A]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent align="end" className="w-48 rounded-none border border-[#B4B0A8] bg-[#EAE9E5] p-2 shadow-xl mt-2">
+                  <div className="border-b border-[#B4B0A8]/50 px-3 py-2 mb-1 rounded-none">
+                    <p className="text-[10px] uppercase tracking-widest text-[#59636A]">
+                      Signed in as
+                    </p>
+                    <p className="text-sm font-medium text-[#202426] truncate">
+                      {user.name}
+                    </p>
                   </div>
-                </>
-              )}
+
+                  <DropdownMenuItem 
+                    onClick={() => router.push("/profile")}
+                    className="cursor-pointer rounded-none block px-3 py-2 text-[11px] font-medium uppercase tracking-[0.15em] text-[#59636A] focus:bg-[#D5CCBD]/40 focus:text-[#202426] transition-colors"
+                  >
+                    My Profile
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuSeparator className="bg-[#B4B0A8]/50" />
+                  
+                  <DropdownMenuItem 
+                    onClick={handleLogout} 
+                    className="cursor-pointer rounded-none block w-full text-left px-3 py-2 text-[11px] font-medium uppercase tracking-[0.15em] text-[#59636A] focus:bg-[#D5CCBD]/40 focus:text-[#202426] transition-colors"
+                  >
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
             </div>
           ) : (
-            <div className="hidden gap-4 md:flex">
+            <div className="hidden gap-4 lg:flex">
               <Link
                 href="/login"
                 className="px-4 py-2 text-[11px] font-medium uppercase tracking-[0.15em] text-[#59636A] hover:text-[#202426] transition-colors"
@@ -152,7 +153,7 @@ export const Navbar = () => {
           )}
 
           <button
-            className="md:hidden text-[#202426]"
+            className="lg:hidden text-[#202426]"
             onClick={() => setOpen(!open)}
           >
             {open ? (
@@ -165,7 +166,7 @@ export const Navbar = () => {
       </div>
 
       {open && (
-        <div className="mt-6 flex flex-col gap-6 border-t border-[#B4B0A8] pt-6 md:hidden">
+        <div className="mt-6 flex flex-col gap-6 border-t border-[#B4B0A8] pt-6 lg:hidden">
           {links.map((l) => {
             const isActive =
               l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);

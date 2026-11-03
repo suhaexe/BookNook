@@ -7,6 +7,7 @@ import { PageTitle } from "@/components/ui/page-title";
 import { Cormorant_Garamond } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
+import { Spinner } from "@/components/ui/Spinner";
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -78,11 +79,7 @@ const MyBorrowsPage = () => {
 
   if (isPending || loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#EAE9E5]">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-[#59636A] animate-pulse">
-          Loading your library...
-        </p>
-      </div>
+      <Spinner />
     );
   }
 

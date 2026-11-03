@@ -108,9 +108,14 @@ const LoginForm = () => {
           />
         </div>
         <div>
-          <label className="block text-[11px] font-medium uppercase tracking-widest text-[#59636A] mb-2">
-            Password
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-[11px] font-medium uppercase tracking-widest text-[#59636A]">
+              Password
+            </label>
+            <span className="text-[10px] text-[#8D7771] cursor-pointer hover:underline">
+              Forget Password?
+            </span>
+          </div>
           <input
             name="password"
             type="password"

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Spinner } from "@/components/ui/Spinner";
 import { PageTitle } from "@/components/ui/page-title";
 import { Cormorant_Garamond } from "next/font/google";
 
@@ -41,11 +42,7 @@ const AllBooksPage = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#EAE9E5]">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-[#59636A] animate-pulse">
-          Loading the shelves...
-        </p>
-      </div>
+      <Spinner />
     );
   }
 
@@ -83,7 +80,7 @@ const AllBooksPage = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-10">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-3 lg:gap-x-10">
             {books.map((book) => (
               <Link
                 href={`/books/${book._id}`}
@@ -108,6 +105,9 @@ const AllBooksPage = () => {
                   <p className={`${display.className} mt-2 text-sm italic text-[#59636A] md:text-base`}>
                     By {book.author}
                   </p>
+                  <span className="mt-4 inline-block pb-1 text-[12px] font-bold uppercase tracking-[0.15em] text-[#1a1512] transition-colors group-hover:text-[#b79c99] group-hover:border-[#8D7771]">
+                    View Details
+                  </span>
                 </div>
               </Link>
             ))}

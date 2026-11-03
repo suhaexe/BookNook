@@ -178,6 +178,17 @@ const AddBookPage = () => {
           />
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[#B4B0A8]">
+          <div>
+            <label className="block text-[11px] font-medium uppercase tracking-widest text-[#59636A] mb-2">Added By (Name)</label>
+            <input value={session.user.name} readOnly className="w-full border border-[#8D7771] bg-[#8D7771]/10 p-3 text-[#8D7771] font-medium cursor-not-allowed outline-none" />
+          </div>
+          <div>
+            <label className="block text-[11px] font-medium uppercase tracking-widest text-[#59636A] mb-2">Added By (Email)</label>
+            <input value={session.user.email} readOnly className="w-full border border-[#8D7771] bg-[#8D7771]/10 p-3 text-[#8D7771] font-medium cursor-not-allowed outline-none" />
+          </div>
+        </div>
+
         <button
           type="submit"
           disabled={loading}

@@ -54,7 +54,7 @@ const Shelf = ({
             return (
               <div
                 key={book.id}
-                className={`flex ${isEven ? "flex-row" : "flex-row-reverse"} items-center w-full max-w-6xl mx-auto gap-2 md:gap-8 py-12 md:py-20 pl-5 md:pl-12 pr-5 md:pr-24`}
+                className={`flex ${isEven ? "flex-row" : "flex-row-reverse"} items-center w-full max-w-6xl mx-auto gap-2 md:gap-8 py-12 md:py-20 pl-5 md:pl-12 pr-5 md:pr-12 `}
               >
                 {/* image container */}
                 <div
@@ -98,6 +98,14 @@ const Shelf = ({
               </div>
             );
           })}
+        </div>
+        <div className="mt-8 flex justify-center w-full">
+          <Link
+            href="/books"
+            className="rounded-full bg-[#1a1512] text-[#EAE9E5] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors hover:bg-[#8D7771] hover:text-[#1a1512]"
+          >
+            See All Books
+          </Link>
         </div>
       </div>
     </section>
